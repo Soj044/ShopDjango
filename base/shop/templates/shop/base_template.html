@@ -7,12 +7,16 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="{% static 'shop/css/bootstrap.min.css' %}" rel="stylesheet">
-    <title>Courses</title>
+    <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
-            <a href="#" class="navbar-brand">Course Shop</a>
+            <a class="navbar-brand " href="{% url 'shop:index' %}">Course Shop</a>
+            <span class="navbar-text">
+                <a href="http://127.0.0.1:8000/admin/" class="me_2" target="_blank">Admin</a>
+                <a href="/api/v1/" class="me-2" target="_blank">API</a>
+            </span>
         </div>
     </nav>
     <main class="container">
