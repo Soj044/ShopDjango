@@ -1,0 +1,26 @@
+{% extends 'shop/base_template.html' %}
+
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+    <div class="container py-4">
+        <h1 class="mb-4 text-center">{{ course.title }}</h1>
+        <hr>
+        <main class="card shadow-sm">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <h5 class="card-title text-success">Course Details</h5>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-success text-light">Category: {{ course.category }}</li>
+                    <li class="list-group-item bg-dark text-light">Reviews: {{ course.reviews_qty }}</li>
+                    <li class="list-group-item bg-success text-light">Students: {{ course.student_qty }}</li>
+                    <li class="list-group-item bg-dark text-light">Date: {{ course.created_at }}</li>
+                    <li class="list-group-item bg-success text-light">Price: {{ course.price }}</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'shop/base_template.html' %}
+
+{% block content %}
+<div class="container mt-5 w-50 h-75 justify-content-center">
+    <div class="bg-dark text-white p-4 rounded shadow" style="min-width: 300px; max-width: 500px;">
+        <h2 class="text-center mb-4">Courses Category</h2>
+        <div class="d-flex flex-column gap-2">
+            {% for cat in category %}
+                <a href="{% url 'shop:cat_courses' cat.id %}"
+                   class="bg-success text-white px-3 py-2 rounded text-decoration-none text-center">
+                    {{ cat.name }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
