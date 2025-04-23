@@ -19,9 +19,9 @@ from django.views.generic import RedirectView
 from tastypie.api import Api
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='shop/', permanent=False)),
     path('admin/', admin.site.urls),
-    path('shop/', include('shop.urls')),
+    path('', include('shop.urls')),
+    path('user/', include('user.urls')),
     path('api/', include('api.urls')),
 
 ]

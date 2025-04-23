@@ -14,10 +14,10 @@ class CourseInline(admin.TabularInline):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['title']
+    list_display = ['name']
     inlines = [CourseInline]
     fieldsets = [
-        (None, {'fields': ['title']}),
+        (None, {'fields': ['name']}),
         ('courses', {
             'fields': ['created_at'],
             'classes': ['collapse']
