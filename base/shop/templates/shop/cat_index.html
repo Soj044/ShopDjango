@@ -6,7 +6,7 @@
         <h2 class="text-center mb-4">Courses Category</h2>
         <div class="d-flex flex-column gap-2">
             {% for cat in category %}
-                <a href="{% url 'shop:cat_courses' cat.id %}"
+                <a href="{% url 'shop:cat_courses' cat.cat_slug %}"
                    class="bg-success text-white px-3 py-2 rounded text-decoration-none text-center">
                     {{ cat.name }}
                 </a>

@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from purchase.models import Purchase
 from .models import Course, Category
 
 
@@ -24,6 +25,10 @@ class CategoryAdmin(admin.ModelAdmin):
         })
     ]
 
+class PurchaseAdmin(admin.ModelAdmin):
+    list_display = ['buyer', 'course', 'total_price', 'purchase_date']
+
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Course, CourseAdmin)
+admin.site.register(Purchase, PurchaseAdmin)

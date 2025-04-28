@@ -1,10 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'shop/base_template.html' %}
+{% load widget_tweaks %}
 
-</body>
-</html>
+{% block content %}
+<div class="container mt-5">
+    <div class="row g-4"> <!-- Горизонтальный блок -->
+
+        <!-- Профиль слева -->
+        <div class="col-md-4">
+            <div class="card shadow h-100">
+                <div class="card-body bg-dark-subtle text-dark rounded">
+                    <h2 class="mb-4 text-center">👤 Profile</h2>
+
+                    <!-- Аватар -->
+                    <div class="text-center mb-4">
+                        {% if user.avatar %}
+                            <img src="{{ user.avatar.url }}" alt="avatar" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
+                        {% else %}
+                            <img src="{{ default_image }}" alt="default avatar" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
+                        {% endif %}
+                    </div>
+
+                    <!-- Форма профиля -->
+                    <form method="post" enctype="multipart/form-data" class="text-start">
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                        {% endif %}
+
+                        {% for f in form %}
+                            <div class="mb-3">
+                                <label for="{{ f.id_for_label }}" class="form-label">{{ f.label }}</label>
+                                {{ f|add_class:"form-control" }}
+                                {% if f.errors %}
+                                    <div class="text-danger small">{{ f.errors }}</div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-success w-100">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Список покупок справа -->
+        <div class="col-md-8">
+            <div class="card shadow h-100">
+                <div class="card-body bg-dark-subtle text-dark rounded">
+                    <h3 class="mb-4 text-center">🛒 My Purchases</h3>
+
+                    {% if purchases %}
+                        <div class="row g-3">
+                            {% for purchase in purchases %}
+                                <div class="col-md-6">
+                                    <div class="card bg-light h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ purchase.course.title }}</h5>
+                                            <p class="card-text">Цена: {{ purchase.total_price }}$</p>
+                                            <p class="card-text text-muted">Дата покупки: {{ purchase.purchase_date|date:"d M Y H:i" }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-center text-muted">У вас пока нет покупок.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- Закрытие строки -->
+</div>
+{% endblock %}

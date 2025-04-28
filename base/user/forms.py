@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.utils import timezone
+
 from .models import User
 
 class UserLoginForm(AuthenticationForm):
@@ -21,4 +23,21 @@ class UserRegistrationForm(UserCreationForm):
         model = get_user_model()
         fields = ('username', 'email', 'password1', 'password2')
         labels = {'email': 'E-mail'}
+
+class UserProfileForm(forms.ModelForm):
+    username = forms.CharField(disabled=True, label="Name",
+                               widget=forms.TextInput(attrs={'class': 'form-input'}))
+    email = forms.CharField(disabled=True, label="E-mail",
+                            widget=forms.TextInput(attrs={'class': 'form-input'}))
+    avatar = forms.ImageField(label='Avatar')
+    # date_joined = forms.DateTimeField(label='Date joined', )
+
+    class Meta:
+        model = get_user_model()
+        fields = ['avatar', 'username', 'email',]
+        labels = {
+            'username': 'name',
+            'email': 'e-mail',
+        }
+
 
