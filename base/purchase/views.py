@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import CreateView, UpdateView, ListView, DeleteView
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
@@ -30,3 +30,10 @@ class CreatePurchaseView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['course'] = self.course
         return context
+
+class CancelPurchaseView(LoginRequiredMixin, DeleteView):
+    model = Purchase
+    success_url = reverse_lazy('user:profile')
+
+    def get_queryset(self):
+        return self.model.objects.filter(buyer=self.request.user)
