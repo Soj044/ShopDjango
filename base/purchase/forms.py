@@ -7,4 +7,4 @@ from purchase.models import Purchase
 class PurchaseForm(forms.ModelForm):
     class Meta:
         model = Purchase
-        fields = ['courses_qty',]
+        fields = ['courses_qty', 'total_price']

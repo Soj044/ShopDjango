@@ -1,3 +1,4 @@
+from turtle import title
 from django.contrib import admin
 
 from purchase.models import Purchase
@@ -5,7 +6,8 @@ from .models import Course, Category
 
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('title', 'id', 'price', 'category', 'created_at')
+    list_display = ('title', 'course_slug', 'price', 'category', 'created_at')
+    prepopulated_fields = {'course_slug': ('title', )}
 
 
 class CourseInline(admin.TabularInline):
@@ -15,7 +17,8 @@ class CourseInline(admin.TabularInline):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name']
+    list_display = ['name', 'cat_slug']
+    prepopulated_fields= {'cat_slug': ('name',)}
     inlines = [CourseInline]
     fieldsets = [
         (None, {'fields': ['name']}),

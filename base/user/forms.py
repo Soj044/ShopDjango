@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.utils import timezone
 
 from .models import User
@@ -38,6 +38,30 @@ class UserProfileForm(forms.ModelForm):
         labels = {
             'username': 'name',
             'email': 'e-mail',
+        }
+
+class UserPasswordChangeForm(PasswordChangeForm):
+    new_password1 = forms.CharField(
+        label='Новый пароль',
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"})
+    )
+    new_password2 = forms.CharField(
+        label='Повторите новый пароль',
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"})
+    )
+    old_password = forms.CharField(
+        label='Старый пароль',
+        widget=forms.PasswordInput(attrs={
+            "autocomplete": "current-password",
+            "autofocus": True
+        })
+    )
+
+    class Meta:
+        labels = {
+            'new_password1': 'Новый пароль',
+            'new_password2': 'Повторите новый пароль',
+            'old_password': 'Старый пароль',
         }
 
 

@@ -1,14 +1,13 @@
 from django.contrib import auth
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, PasswordChangeView
-from django.views.generic import CreateView, UpdateView
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.contrib.auth.views import PasswordChangeView
+from django.views.generic import UpdateView
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-
 from base import settings
-from .forms import UserLoginForm, UserRegistrationForm, UserProfileForm
+from .forms import UserLoginForm, UserRegistrationForm, UserProfileForm, UserPasswordChangeForm
 from .models import *
 from .services import PurchaseByUserService
 
@@ -17,7 +16,8 @@ class UserProfile(UpdateView, LoginRequiredMixin):
     model = User
     form_class = UserProfileForm
     template_name = 'user/profile.html'
-    extra_context = {'default_image': settings.DEFAULT_USER_IMAGE,}
+    extra_context = {'default_image': settings.DEFAULT_USER_IMAGE, }
+
     def get_success_url(self):
         return reverse('users:profile')
 
@@ -32,7 +32,6 @@ class UserProfile(UpdateView, LoginRequiredMixin):
 
     def get_object(self, queryset=None):
         return self.request.user
-
 
 
 # class RegisterUser(CreateView):
@@ -71,8 +70,11 @@ def user_login(request):
         form = UserLoginForm()
     return render(request, 'user/login.html', {'form': form})
 
+class UserPasswordChangeView(PasswordChangeView):
+    form_class = UserPasswordChangeForm
+    success_url = reverse_lazy("user:change_pass_done")
+    template_name = "user/password_change_form.html"
 
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('user:login'))
-

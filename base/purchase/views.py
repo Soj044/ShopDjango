@@ -15,6 +15,7 @@ class CreatePurchaseView(LoginRequiredMixin, CreateView):
     template_name = 'purchase/purchase_form.html'
     success_url = reverse_lazy('shop:cat_index')  # или страница “успешной покупки”
     login_url = 'user:login'
+    forms = PurchaseForm()
 
     def dispatch(self, request, *args, **kwargs):
         self.course = get_object_or_404(Course, course_slug=self.kwargs['course_slug'])
@@ -37,3 +38,4 @@ class CancelPurchaseView(LoginRequiredMixin, DeleteView):
 
     def get_queryset(self):
         return self.model.objects.filter(buyer=self.request.user)
+    
