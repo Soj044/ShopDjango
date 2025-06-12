@@ -23,7 +23,7 @@ from base import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('shop.urls')),
+    path('shop/', include('shop.urls')),
     path('user/', include('user.urls')),
     path('api/', include('api.urls')),
     path('purchase/', include('purchase.urls'))

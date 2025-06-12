@@ -1,4 +1,3 @@
-from turtle import title
 from django.contrib import admin
 
 from purchase.models import Purchase

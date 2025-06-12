@@ -20,6 +20,9 @@
                     <li class="list-group-item bg-dark text-light">Date: {{ course.created_at }}</li>
                     <li class="list-group-item bg-success text-light">Price: {{ course.price }}</li>
                 </ul>
+                {% if perms.shop.change_course %}
+                    <p><a class="cancel-link" href="{% url 'shop:edit_course' course.course_slug %}">Обновить данные курса</a></p>
+                {% endif %}
             </div>
         </main>
     </div>
