@@ -1,7 +1,10 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 from django.db import models
+
+from shop.services import get_discounted_price
 
 
 class Category(models.Model):
@@ -21,7 +24,13 @@ class Category(models.Model):
 class Course(models.Model):
     title = models.CharField(max_length=255)
     course_slug = models.SlugField(max_length=255, unique=True, blank=True, verbose_name="URL")
-    price = models.FloatField(default=0.0, blank=True)
+    price = models.DecimalField(max_digits=20, decimal_places=2, default=0.00, blank=True)
+    discount = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=0.00,
+        validators=[MinValueValidator(0), MaxValueValidator(100)]
+    )
     student_qty = models.PositiveIntegerField(default=0, blank=True)
     reviews_qty = models.PositiveIntegerField(default=0, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
@@ -37,3 +46,6 @@ class Course(models.Model):
         if not self.course_slug:
             self.course_slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    def get_discounted_price(self):
+        return get_discounted_price(self)

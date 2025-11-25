@@ -1,8 +1,6 @@
 {%extends 'shop/base_template.html'%}
 {% block content %}
 
-            <h2 class="mb-4">{{ cat_name }}</h2>
-
 <table class="table mt-5 table-bordered table-striped table-hover">
     <thead class="table-dark">
         <tr>
@@ -14,20 +12,12 @@
         </tr>
     </thead>
     <tbody>
-        {% for course in courses %}
+        {% for course in all_courses %}
         <tr>
             <td>
                 <a href="{% url 'shop:single_course' course.course_slug%}" class="link-success">{{ course.title }}</a>
             </td>
-            <td>
-                    {% if course.discount > 0 %}
-                        <span class="text-muted text-decoration-line-through">${{ course.price }}</span>
-                        <span class="text-danger">{{ course.discount }}% off</span>
-                        <span class="fw-bold">${{ course.get_discounted_price }}</span>
-                    {% else %}
-                        <span class="fw-bold">${{ course.price }}</span>
-                    {% endif %}
-            </td>
+            <td>{{ course.price }}</td>
             <td>{{ course.student_qty }}</td>
             <td>{{ course.category }}</td>
             <td><button class="btn btn-primary btn-success"><a href="{% url 'purchase:buy' course.course_slug %}">Buy</a></button></td>

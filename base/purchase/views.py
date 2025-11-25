@@ -1,8 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, UpdateView, ListView, DeleteView
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.views.generic import CreateView, DeleteView
+from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
+from shop.services import get_discounted_price
 
 from purchase.forms import PurchaseForm
 from purchase.models import Purchase
@@ -24,12 +24,14 @@ class CreatePurchaseView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.buyer = self.request.user
         form.instance.course = self.course
-        form.instance.total_price = self.course.price * form.instance.courses_qty
+        discounted_price = get_discounted_price(self.course)
+        form.instance.total_price = discounted_price * form.instance.courses_qty
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['course'] = self.course
+        context['discounted_price'] = get_discounted_price(self.course)
         return context
 
 class CancelPurchaseView(LoginRequiredMixin, DeleteView):
